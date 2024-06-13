@@ -1,0 +1,55 @@
+<ng-container *ngIf="editingTask; else addTask">
+    <h2 class="ml-2" mat-dialog-title> Editar Tarea</h2>
+</ng-container>
+
+<ng-template #addTask>
+    <h2 mat-dialog-title> Añadir Tarea</h2>
+</ng-template>
+
+
+<div mat-dialog-content>
+    <form [formGroup]="taskForm">
+        <div class="row">
+            <mat-form-field class="w-100 p-2" appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre"/>
+                <mat-error *ngIf="nombreControl?.invalid && nombreControl?.touched">
+                    <span *ngIf="nombreControl?.errors?.['required']"> Este campo es obligatorio</span>
+                    <span *ngIf="nombreControl?.errors?.['minlength']">El nombre debe tener al menos un caracter</span>
+                    <span *ngIf="nombreControl?.errors?.['maxlength']">
+                        El nombre no puede tener más de 50 caracteres
+                    </span>             
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 p-2" appearance="outline">
+                <mat-label>Fecha</mat-label>
+                <input matInput formControlName="fecha" [matDatepicker]="picker"> <mat-hint>MM-DD-YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="fechaControl?.touched" >
+                  <span *ngIf= "fechaControl?.errors?.['holiday']">
+                    La fecha seleccionada es un día feriado.
+                  </span>
+                  <span *ngIf= "fechaControl?.errors?.['required']">
+                    La fecha es obligatoria
+                  </span>
+                </mat-error>
+              </mat-form-field>
+
+            <mat-form-field class="w-100 p-2" appearance="outline">
+                <mat-label>Prioridad</mat-label>
+                <mat-select formControlName="prioridad">
+                    <mat-option *ngFor="let prioridad of priorities$ | async" [value]="prioridad.id"> {{prioridad.nombre}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="prioridadControl?.errors?.['required']">
+                    Debe seleccionar la prioridad de la tarea.
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+
+<div class="d-flex justify-content-end" mat-dialog-actions>
+    <button mat-dialog-close mat-button> Cancelar </button>
+    <button (click)="onSave()" mat-button> Guardar</button>
+</div>
