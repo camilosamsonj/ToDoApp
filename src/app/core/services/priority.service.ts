@@ -1,3 +1,9 @@
+  /**
+ * Servicio encargado de consumir la API del servidor que sirve la lista de prioridades de su respectiva tabla.
+ */
+
+
+
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

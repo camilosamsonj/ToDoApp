@@ -1,3 +1,17 @@
+/**
+ * TaskDialogComponent
+ * 
+ * Componente de diálogo para crear o editar una tarea.
+ * Utiliza formularios reactivos para manejar el formulario y sus validaciones.
+ * 
+ * Métodos:
+ * - constructor(): Configura el formulario y carga los datos si se está editando una tarea.
+ * - ngOnInit(): Carga las prioridades disponibles para el formulario.
+ * - nombreControl, fechaControl, prioridadControl: Métodos para acceder a los campos del formulario.
+ * - onSave(): Maneja la acción de guardar, valida el formulario y envía los datos de la tarea.
+ */
+
+
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -16,7 +30,7 @@ export class TaskDialogComponent implements OnInit {
   priorities$: Observable<IPriority[]> = of([]);
 
   constructor(
-    
+
     private publicHolidayService: PublicHolidayService,
     private priorityService: PriorityService,
     private fb: FormBuilder,
@@ -26,22 +40,22 @@ export class TaskDialogComponent implements OnInit {
   ) {
     this.taskForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-      fecha: ['', [Validators.required], 
-        [holidayValidator(publicHolidayService)],  { updateOn: 'blur' }
+      fecha: ['', [Validators.required],
+        [holidayValidator(publicHolidayService)], { updateOn: 'blur' }
       ],
       prioridad: ['', [Validators.required]],
     });
-   
-   if (editingTask) {
+
+    if (editingTask) {
       this.taskForm.patchValue(editingTask);
     }
   }
 
   ngOnInit(): void {
-  this.priorities$ =this.priorityService.getPriorities();
-}
+    this.priorities$ = this.priorityService.getPriorities();
 
-  // Getter methods for form controls (optional, improves readability)
+  }
+
   get nombreControl() {
     return this.taskForm.get('nombre');
   }

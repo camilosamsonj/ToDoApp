@@ -1,6 +1,15 @@
+  /**
+ * 
+ * Servicio encargado de enviar una petición http get al backend, que está encargado
+ * de consumir la api de feriados.
+ * Se realizó de esta manera debido a que la API me arrojaba una restricción CORS
+ * 
+ */
+
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Holiday } from 'src/app/tasks/models';
 
 
